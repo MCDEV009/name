@@ -28,27 +28,36 @@ const Home = () => {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6 mt-12">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <Link
+          to="/create-question"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer block"
+        >
           <h3 className="text-xl font-bold mb-3">AI yordamida savol yaratish</h3>
           <p className="text-gray-600">
             4 xil tilda (Qoraqalpoq, O'zbek, Rus, Ingliz) AI yordamida
             savollar yarating
           </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        </Link>
+        <Link
+          to="/take-test"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer block"
+        >
           <h3 className="text-xl font-bold mb-3">Mock test yechish</h3>
           <p className="text-gray-600">
             Turli fanlar va mavzular bo'yicha testlarni yeching va natijalaringizni
             kuzatib boring
           </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        </Link>
+        <Link
+          to="/test-history"
+          className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer block"
+        >
           <h3 className="text-xl font-bold mb-3">Natijalar va statistika</h3>
           <p className="text-gray-600">
             Barcha test natijalaringizni ko'ring va o'z bilimingizni
             baholang
           </p>
-        </div>
+        </Link>
       </div>
     </div>
   );
