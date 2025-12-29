@@ -43,7 +43,9 @@ const Navbar = () => {
                 )}
                 <div className="flex items-center space-x-2">
                   <span>{user.username}</span>
-                  <span className="text-sm">({user.quota - user.usedQuota} kvota)</span>
+                  {user.quota !== undefined && (
+                    <span className="text-sm">({user.quota - (user.usedQuota || 0)} kvota)</span>
+                  )}
                 </div>
                 <button
                   onClick={handleLogout}
@@ -52,19 +54,7 @@ const Navbar = () => {
                   Chiqish
                 </button>
               </>
-            ) : (
-              <>
-                <Link to="/login" className="hover:text-blue-200">
-                  Kirish
-                </Link>
-                <Link
-                  to="/register"
-                  className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
-                >
-                  Ro'yxatdan o'tish
-                </Link>
-              </>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

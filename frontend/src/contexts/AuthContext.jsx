@@ -17,12 +17,13 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
+    // Faqat ism bilan kirish - localStorage'dan ismni olish
+    const username = localStorage.getItem('username');
+    if (username) {
+      setUser({ username, role: 'user', quota: 100, usedQuota: 0 });
     }
-  }, [token]);
+    setLoading(false);
+  }, []);
 
   const fetchUser = async () => {
     try {
@@ -75,12 +76,23 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setToken(null);
     setUser(null);
   };
 
+  // Faqat ism bilan kirish funksiyasi
+  const simpleLogin = (username) => {
+    if (username && username.trim()) {
+      localStorage.setItem('username', username.trim());
+      setUser({ username: username.trim(), role: 'user', quota: 100, usedQuota: 0 });
+      return { success: true };
+    }
+    return { success: false, message: 'Ismni kiriting' };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, simpleLogin, loading }}>
       {children}
     </AuthContext.Provider>
   );
