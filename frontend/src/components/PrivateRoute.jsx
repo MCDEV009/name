@@ -14,7 +14,7 @@ const PrivateRoute = ({ children, requireModerator = false }) => {
   }
 
   if (!user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (requireModerator && user.role !== 'moderator' && user.role !== 'admin') {

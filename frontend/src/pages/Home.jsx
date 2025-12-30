@@ -1,27 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
-  const [username, setUsername] = useState('');
-  const { simpleLogin, user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Agar user kirgan bo'lsa, dashboard'ga yo'naltirish
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = await simpleLogin(username);
-    if (result.success) {
-      navigate('/dashboard');
-    }
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
@@ -31,29 +11,19 @@ const Home = () => {
         <p className="text-xl text-gray-600 mb-8">
           O'zbekiston DTM Milliy sertifikat imtihonlariga tayyorgarlik ko'ring
         </p>
-        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-6">Kirish</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm font-bold mb-2">
-                Ismingizni kiriting
-              </label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Ismingiz"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold"
-            >
-              Kirish
-            </button>
-          </form>
+        <div className="flex justify-center space-x-4">
+          <Link
+            to="/register"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+          >
+            Ro'yxatdan o'tish
+          </Link>
+          <Link
+            to="/login"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg text-lg font-semibold"
+          >
+            Kirish
+          </Link>
         </div>
       </div>
 

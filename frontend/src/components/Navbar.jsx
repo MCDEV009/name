@@ -54,7 +54,19 @@ const Navbar = () => {
                   Chiqish
                 </button>
               </>
-            ) : null}
+            ) : (
+              <>
+                <Link to="/login" className="hover:text-blue-200">
+                  Kirish
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+                >
+                  Ro'yxatdan o'tish
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
