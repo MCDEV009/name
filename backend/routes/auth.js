@@ -100,4 +100,52 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Simple login with username only (creates user if doesn't exist)
+router.post('/simple-login', async (req, res) => {
+  try {
+    const { username } = req.body;
+
+    if (!username || !username.trim()) {
+      return res.status(400).json({ message: 'Username talab qilinadi' });
+    }
+
+    // Find or create user
+    let user = await User.findOne({ username: username.trim() });
+    
+    if (!user) {
+      // Create new user with default password
+      const defaultPassword = Math.random().toString(36).slice(-8);
+      user = new User({ 
+        username: username.trim(), 
+        email: `${username.trim()}@example.com`, // Dummy email
+        password: defaultPassword,
+        quota: 100,
+        usedQuota: 0
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign(
+      { userId: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      message: 'Muvaffaqiyatli kirildi',
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        quota: user.quota,
+        usedQuota: user.usedQuota
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server xatosi', error: error.message });
+  }
+});
+
 export default router;

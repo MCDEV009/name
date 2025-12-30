@@ -14,9 +14,9 @@ const Home = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = simpleLogin(username);
+    const result = await simpleLogin(username);
     if (result.success) {
       navigate('/dashboard');
     }

@@ -17,13 +17,18 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('token'));
 
   useEffect(() => {
-    // Faqat ism bilan kirish - localStorage'dan ismni olish
-    const username = localStorage.getItem('username');
-    if (username) {
-      setUser({ username, role: 'user', quota: 100, usedQuota: 0 });
+    // Token bor bo'lsa, user ma'lumotlarini olish
+    if (token) {
+      fetchUser();
+    } else {
+      // Token yo'q bo'lsa, faqat username bilan kirish
+      const username = localStorage.getItem('username');
+      if (username) {
+        setUser({ username, role: 'user', quota: 100, usedQuota: 0 });
+      }
+      setLoading(false);
     }
-    setLoading(false);
-  }, []);
+  }, [token]);
 
   const fetchUser = async () => {
     try {
@@ -82,13 +87,29 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Faqat ism bilan kirish funksiyasi
-  const simpleLogin = (username) => {
-    if (username && username.trim()) {
-      localStorage.setItem('username', username.trim());
-      setUser({ username: username.trim(), role: 'user', quota: 100, usedQuota: 0 });
-      return { success: true };
+  const simpleLogin = async (username) => {
+    if (!username || !username.trim()) {
+      return { success: false, message: 'Ismni kiriting' };
     }
-    return { success: false, message: 'Ismni kiriting' };
+
+    try {
+      const response = await apiClient.post('/api/auth/simple-login', { 
+        username: username.trim() 
+      });
+      const { token, user } = response.data;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username.trim());
+      setToken(token);
+      setUser(user);
+      
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        message: error.response?.data?.message || 'Kirishda xatolik yuz berdi' 
+      };
+    }
   };
 
   return (

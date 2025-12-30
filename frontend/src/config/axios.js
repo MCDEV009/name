@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend API base URL - environment variable or default to localhost
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'yamanote.proxy.rlwy.net:20007';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 // Create axios instance with base URL
 const apiClient = axios.create({
